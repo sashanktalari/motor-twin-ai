@@ -3,133 +3,118 @@
 ## 1. System Requirements
 
 ### Hardware Requirements
-- **Processor:** Modern dual-core CPU (Intel Core i3 / AMD Ryzen 3 or higher).
-- **RAM:** 4 GB minimum (8 GB recommended for simultaneous Three.js rendering and ML training).
-- **Disk Space:** 500 MB free space.
-- **Display:** WebGL 2.0 compatible browser (Chrome, Edge, Firefox, Safari).
+- Processor: Modern dual-core CPU or higher.
+- RAM: 4 GB minimum; 8 GB recommended.
+- Disk Space: 500 MB free space.
+- Display: WebGL 2.0 compatible browser.
 
 ### Software Requirements
-- **Operating System:** Windows 10/11, Ubuntu 20.04+, or macOS 12+.
-- **Python:** Version 3.10 to 3.13.
-- **Node.js:** Version 18.x or higher (LTS recommended).
-- **npm:** Version 9.x or higher.
-
----
+- Windows 10/11, Ubuntu 20.04+, or macOS 12+.
+- Python 3.10–3.13.
+- Node.js 18 or higher.
+- npm 9 or higher.
 
 ## 2. Local Setup Instructions
 
-### 2.1 Clone or Navigate to Repository
+### 2.1 Clone the Repository
+
 ```bash
-git clone https://github.com/your-username/motor-digital-twin.git
+git clone https://github.com/durgasashanktalari-ai/motor-digital-twin.git
 cd motor-digital-twin
 ```
 
----
+### 2.2 Backend Setup
 
-### 2.2 Backend Setup (FastAPI & Python)
+The backend source code is located in the root-level `app/` directory.
 
-1. Open a terminal in the project directory:
-   ```bash
-   cd backend
-   ```
+Create a virtual environment:
 
-2. Create and activate a Python virtual environment:
-   - **Windows:**
-     ```powershell
-     python -m venv .venv
-     .venv\Scripts\activate
-     ```
-   - **Linux / macOS:**
-     ```bash
-     python3 -m venv .venv
-     source .venv/bin/activate
-     ```
+**Windows PowerShell**
+```powershell
+python -m venv .venv
+.venv\Scripts\Activate.ps1
+```
 
-3. Install all required dependencies:
-   ```bash
-   pip install --upgrade pip
-   pip install -r requirements.txt
-   ```
+**Linux / macOS**
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+```
 
-4. Train the ML models and seed benchmark datasets:
-   ```bash
-   python -m app.ml.train
-   ```
-   *This generates `models/rf_model.joblib`, `models/svm_model.joblib`, `models/knn_model.joblib`, `models/isolation_forest.joblib`, `models/scaler.joblib`, and `models/metrics.json`.*
+Install dependencies:
 
-5. Run the automated backend verification test suite:
-   ```bash
-   pytest -v
-   ```
-   *All 18 tests should pass.*
+```bash
+python -m pip install --upgrade pip
+pip install -r requirements.txt
+```
 
-6. Start the FastAPI development server:
-   ```bash
-   python -m uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
-   ```
-   *Interactive API documentation is now live at: `http://localhost:8000/api/docs`.*
+Start the backend:
 
----
+```bash
+python -m uvicorn app.main:app --host 127.0.0.1 --port 8000 --reload
+```
 
-### 2.3 Frontend Setup (React, TypeScript & Vite)
+API documentation:
 
-1. Open a second terminal window and navigate to the frontend folder:
-   ```bash
-   cd frontend
-   ```
+`http://localhost:8000/api/docs`
 
-2. Install npm dependencies:
-   ```bash
-   npm install
-   ```
+Run backend tests from the repository root in a separate terminal:
 
-3. Verify production compilation:
-   ```bash
-   npm run build
-   ```
+```bash
+pytest -v
+```
 
-4. Launch the Vite development server:
-   ```bash
-   npm run dev
-   ```
-   *The platform is now accessible at: `http://localhost:5173`.*
+### 2.3 Frontend Setup
 
----
+The React frontend source code is located in the root-level `src/` directory. Its `package.json` is also in the repository root.
+
+Open a second terminal in the repository root:
+
+```bash
+npm install
+npm run dev
+```
+
+Open:
+
+`http://localhost:5173`
+
+Verify the production build:
+
+```bash
+npm run build
+```
 
 ## 3. Production Deployment
 
-### 3.1 Frontend Deployment (Vercel / Netlify)
-1. Set the root directory to `frontend`.
-2. Build command: `npm run build`
-3. Output directory: `dist`
-4. Set environment variable:
-   ```
-   VITE_API_BASE_URL=https://your-backend-domain.com/api
-   ```
+The frontend and backend currently share the repository root. Configure deployment using the root directory.
 
-### 3.2 Backend Deployment (Render / Railway / DigitalOcean)
-1. Set root directory to `backend`.
-2. Environment: Python 3.11+
-3. Build command:
-   ```bash
-   pip install -r requirements.txt && python -m app.ml.train
-   ```
-4. Start command:
-   ```bash
-   uvicorn app.main:app --host 0.0.0.0 --port $PORT
-   ```
-5. Environment variable:
-   ```
-   BACKEND_CORS_ORIGINS=["https://your-frontend-domain.vercel.app","http://localhost:5173"]
-   ```
+### Frontend
+- Root directory: repository root
+- Build command: `npm install && npm run build`
+- Output directory: `dist`
+- Environment variable: `VITE_API_BASE_URL` set to your deployed backend API URL, if supported by the application.
 
----
+### Backend
+- Root directory: repository root
+- Install command: `pip install -r requirements.txt`
+- Start command:
 
-## 4. Verification Checklist
+```bash
+uvicorn app.main:app --host 0.0.0.0 --port $PORT
+```
 
-After launching both servers, verify the installation by checking:
-- [x] Backend responds with HTTP 200 at `http://localhost:8000/api/health` with `status: "operational"`.
-- [x] Frontend renders at `http://localhost:5173` with green indicator `API Synced (8000)`.
-- [x] 3D induction motor renders immediately in the "3D Digital Twin" tab with rotating shaft.
-- [x] Fault diagnosis inference executes and outputs confidence percentages in the "Fault Diagnosis" tab.
-- [x] Maintenance audit reports can be compiled and printed in the "Maintenance Reports" tab.
+Configure CORS using the actual frontend deployment URL and the backend's supported configuration.
+
+## 4. Verification
+
+After starting both servers, verify:
+
+- Backend health endpoint responds successfully.
+- Frontend loads in the browser.
+- API connection works.
+- 3D Digital Twin renders.
+- Fault diagnosis responds.
+- Maintenance reports can be generated.
+
+**Note:** Test results and feature behavior should be confirmed on the target machine before being described as verified.
