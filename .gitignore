@@ -1,0 +1,75 @@
+
+# =====================================
+# MOTOR TWIN AI - GIT IGNORE
+# =====================================
+
+# Python environments
+.venv/
+venv/
+env/
+ENV/
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+
+# Frontend dependencies
+node_modules/
+
+# Frontend build files
+dist/
+build/
+.vite/
+
+# Local databases
+*.db
+*.sqlite
+*.sqlite3
+motor_twin.db
+
+# Machine learning generated files
+*.joblib
+*.pkl
+*.h5
+*.onnx
+
+# Dataset files
+*.mat
+*.csv
+
+# Logs
+*.log
+logs/
+
+# Temporary files
+*.tmp
+*.bak
+*.swp
+
+# IDE and editor files
+.vscode/
+.idea/
+
+# Operating system files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Test and coverage reports
+.coverage.*
+coverage/
+htmlcov/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
